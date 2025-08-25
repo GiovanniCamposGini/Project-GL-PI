@@ -1,29 +1,45 @@
 package com.gl.project.entities;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import org.hibernate.validator.constraints.br.CPF;
+
 import java.io.Serial;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "tb_users")
 public class User implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @CPF
+    private String CPF;
     private String name;
+
+    @Email
     private String email;
-    private String phone;
+    private String groups;
+    private String statusBanco = "Active";
     private String password;
 
     public User(){
-
     }
 
-    public User(long id, String name, String email, String phone, String password) {
+    public User(long id, String name, String email, String CPF, String password, String groups) {
         super();
         this.id = id;
         this.name = name;
         this.email = email;
-        this.phone = phone;
+        this.CPF = CPF;
+        this.statusBanco = "active";
         this.password = password;
+        this.groups = groups;
     }
 
     public long getId() {
@@ -50,16 +66,30 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCPF() {
+        return CPF;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public void setCPF(String CPF) {this.CPF = CPF; }
 
     public String getPassword() {
         return password;
+    }
+
+    public String getGroup() {
+        return groups;
+    }
+
+    public void setGroup(String group) {
+        this.groups = group;
+    }
+
+    public String getStatusBanco() {
+        return statusBanco;
+    }
+
+    public void setStatusBanco(String statusBanco) {
+        this.statusBanco = statusBanco;
     }
 
     public void setPassword(String password) {
