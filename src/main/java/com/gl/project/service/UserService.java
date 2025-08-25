@@ -36,4 +36,10 @@ public class UserService {
         user.setGroup(newUser.getGroup());
         return userRepository.save(user);
     }
+
+    public User updateStatus(Long id, User newUser) {
+        User userStatus = userRepository.findById(id).get();
+        userStatus.setStatusBanco(newUser.getStatusBanco());
+        return userRepository.save(userStatus);
+    }
 }

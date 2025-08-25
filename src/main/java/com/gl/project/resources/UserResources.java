@@ -42,7 +42,12 @@ public class UserResources {
 
     @PutMapping(value = "{id}")
     public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User newUser) {
-        User user = userService.findByID(id);
+        User user = userService.update(id, newUser);
+        return ResponseEntity.ok().body(user);
+    }
+    @PutMapping(value = "/{id}/status")
+    public ResponseEntity<User> updateStatus(@PathVariable Long id, @RequestBody User newUser) {
+        User user = userService.updateStatus(id, newUser);
         return ResponseEntity.ok().body(user);
     }
 }
