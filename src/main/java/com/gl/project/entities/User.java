@@ -63,6 +63,15 @@ public class User implements Serializable, UserDetails {
     private String statusBanco = "Active";
     private String password;
 
+    public User(String name, String email, String password, UserGroups groups, String cpf) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this .groups = groups;
+        this.CPF = cpf;
+        this.statusBanco = "active";
+    }
+
     public User(){
     }
 
