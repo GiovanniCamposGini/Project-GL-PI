@@ -30,6 +30,7 @@ public class SecurityConfiguration{
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers("/auth/**", "/cadastro.html", "/index.html", "/static/**", "/js/**", "/css/**", "/login.html", "/dashboard.html", "/usuarios.html").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

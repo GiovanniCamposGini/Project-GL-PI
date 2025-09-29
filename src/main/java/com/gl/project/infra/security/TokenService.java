@@ -21,11 +21,16 @@ public class TokenService {
     public String gernerateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
+
             String token = JWT.create()
                     .withIssuer("neima")
                     .withSubject(user.getEmail())
+                    .withClaim("id", user.getId())
+                    .withClaim("name", user.getName())
+                    .withClaim("groups", user.getGroups().name())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
+
             return token;
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Não deu bom papai, vai curintia", exception);

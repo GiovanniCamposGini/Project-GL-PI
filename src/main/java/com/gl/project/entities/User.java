@@ -60,7 +60,7 @@ public class User implements Serializable, UserDetails {
     @Email
     private String email;
     private UserGroups groups;
-    private String statusBanco = "Active";
+    private String statusBanco;
     private String password;
 
     public User(String name, String email, String password, UserGroups groups, String cpf) {
@@ -69,7 +69,7 @@ public class User implements Serializable, UserDetails {
         this.password = password;
         this .groups = groups;
         this.CPF = cpf;
-        this.statusBanco = "active";
+        this.statusBanco = "ATIVO";
     }
 
     public User(){
@@ -120,12 +120,12 @@ public class User implements Serializable, UserDetails {
         return password;
     }
 
-    public UserGroups getGroup() {
+    public UserGroups getGroups() {
         return groups;
     }
 
-    public void setGroup(UserGroups group) {
-        this.groups = group;
+    public void setGroups(UserGroups groups) {
+        this.groups = groups;
     }
 
     public String getStatusBanco() {
