@@ -5,6 +5,7 @@ import com.gl.project.entities.User;
 import com.gl.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,6 +36,8 @@ public class UserResources {
 
     @PostMapping
     public ResponseEntity<User> save(@RequestBody User newUser) {
+        String encryptedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword());
+        newUser.setPassword(encryptedPassword);
         User user = userService.create(newUser);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(user);
