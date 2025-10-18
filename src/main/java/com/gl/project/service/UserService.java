@@ -3,6 +3,7 @@ package com.gl.project.service;
 import com.gl.project.entities.User;
 import com.gl.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,10 +31,13 @@ public class UserService {
 
     public User update(Long id, User newUser) {
         User user = userRepository.findById(id).get();
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword());
+        user.setPassword(encryptedPassword);
+
         user.setName(newUser.getName());
         user.setEmail(newUser.getEmail());
-        user.setPassword(newUser.getPassword());
-        user.setGroup(newUser.getGroup());
+        user.setGroups(newUser.getGroups());
         return userRepository.save(user);
     }
 
