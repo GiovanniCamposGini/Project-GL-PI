@@ -59,6 +59,7 @@ public class User implements Serializable, UserDetails {
 
     @Email
     private String email;
+    @Enumerated(EnumType.STRING)
     private UserGroups groups;
     private String statusBanco;
     private String password;
