@@ -22,15 +22,20 @@ public class SecurityConfiguration{
     SecurityFilter securityFilter;
 
     @Bean
-    public SecurityFilterChain SecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                        .disable()
+                ).headers(headers -> headers
+                        .frameOptions(frame -> frame.sameOrigin()) // permite uso de frames no mesmo domínio
+                )
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers("/auth/**", "/cadastro.html", "/index.html", "/static/**", "/js/**", "/css/**", "/login.html", "/dashboard.html", "/usuarios.html").permitAll()
+                        .requestMatchers("/auth/**", "/cadastro.html", "/index.html", "/static/**", "/js/**", "/css/**", "/login.html", "/dashboard.html", "/usuarios.html", "/h2-console/**").permitAll()
                         .anyRequest().permitAll())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

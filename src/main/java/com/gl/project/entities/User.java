@@ -1,5 +1,6 @@
 package com.gl.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.br.CPF;
@@ -64,11 +65,19 @@ public class User implements Serializable, UserDetails {
     private String statusBanco;
     private String password;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     public User(String name, String email, String password, UserGroups groups, String cpf) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this .groups = groups;
+        this.groups = groups;
         this.CPF = cpf;
         this.statusBanco = "ATIVO";
     }
