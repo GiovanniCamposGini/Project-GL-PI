@@ -1,7 +1,9 @@
 package com.gl.project.resources;
 
 
+import com.gl.project.entities.DTO.OrderResponseDTO;
 import com.gl.project.entities.User;
+import com.gl.project.entities.DTO.UserResponseDTO;
 import com.gl.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @RestController
@@ -23,15 +24,19 @@ public class UserResources {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
+    public ResponseEntity<List<UserResponseDTO>> findAll() {
         List<User> list = userService.findAll();
-        return ResponseEntity.ok().body(list);
+        List<UserResponseDTO> userDTO = list.stream()
+                .map(UserResponseDTO::new)
+                .toList();
+        return ResponseEntity.ok().body(userDTO);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
         User user = userService.findByID(id);
-        return ResponseEntity.ok().body(user);
+        UserResponseDTO dto = new UserResponseDTO(user);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping

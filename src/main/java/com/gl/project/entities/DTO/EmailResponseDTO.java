@@ -1,4 +1,4 @@
-package com.gl.project.entities;
+package com.gl.project.entities.DTO;
 
 public record EmailResponseDTO(String token) {
 }
