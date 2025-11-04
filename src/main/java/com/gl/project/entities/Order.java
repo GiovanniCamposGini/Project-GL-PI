@@ -1,6 +1,8 @@
 package com.gl.project.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.util.Objects;
 
@@ -10,9 +12,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status do pedido não pode ser nulo")
     private OrderStatus status;
+
+    @Positive(message = "Preço total deve ser positivo")
     private double totalPrice;
+
+    @NotNull(message = "Usuário associado ao pedido não pode ser nulo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID")
     private User user;
