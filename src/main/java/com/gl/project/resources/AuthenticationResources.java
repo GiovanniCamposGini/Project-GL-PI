@@ -1,19 +1,17 @@
 package com.gl.project.resources;
 
-import com.gl.project.entities.AuthenticationDTO;
-import com.gl.project.entities.EmailResponseDTO;
-import com.gl.project.entities.RegisterDTO;
+import com.gl.project.entities.DTO.AuthenticationDTO;
+import com.gl.project.entities.DTO.EmailResponseDTO;
+import com.gl.project.entities.DTO.RegisterDTO;
 import com.gl.project.entities.User;
 import com.gl.project.infra.security.TokenService;
 import com.gl.project.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

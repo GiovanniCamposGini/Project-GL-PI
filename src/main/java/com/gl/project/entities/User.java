@@ -1,5 +1,6 @@
 package com.gl.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_users")
 public class User implements Serializable, UserDetails {
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.groups == UserGroups.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -69,11 +71,19 @@ public class User implements Serializable, UserDetails {
     @Size(min = 6, message = "Senha tem que ter no minimo 6 digitos")
     private String password;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     public User(String name, String email, String password, UserGroups groups, String cpf) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this .groups = groups;
+        this.groups = groups;
         this.CPF = cpf;
         this.statusBanco = "ATIVO";
     }

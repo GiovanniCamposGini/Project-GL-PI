@@ -32,7 +32,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Long id, String name, String descriprion, Double price, String imgURL) {
+    public Product(String name, String descriprion, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
