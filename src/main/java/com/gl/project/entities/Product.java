@@ -2,6 +2,10 @@ package com.gl.project.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,9 +24,19 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome do produto não pode estar em branco")
+    @Size(min = 3, message = "Nome do produto deve ter no mínimo 3 caracteres")
     private String name;
+
+    @NotBlank(message = "Descrição não pode estar em branco")
+    @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
     private String descriprion;
+
+    @NotNull(message = "Preço não pode ser nulo")
+    @Positive(message = "Preço deve ser um valor positivo")
     private Double price;
+
+    @NotBlank(message = "URL da imagem não pode estar em branco")
     private String imgURL;
 
     @ManyToMany
