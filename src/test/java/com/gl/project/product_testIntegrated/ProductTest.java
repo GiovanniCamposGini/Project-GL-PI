@@ -1,4 +1,4 @@
-package com.gl.project.product;
+package com.gl.project.product_testIntegrated;
 
 import com.gl.project.entities.Product;
 import com.gl.project.service.ProductService;
