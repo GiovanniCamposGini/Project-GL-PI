@@ -1,4 +1,4 @@
-package com.gl.project.user;
+package com.gl.project.user_testIntegrated;
 
 import com.gl.project.entities.User;
 import com.gl.project.entities.UserGroups;
