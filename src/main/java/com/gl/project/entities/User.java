@@ -16,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_users")
 public class User implements Serializable, UserDetails {
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.groups == UserGroups.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
