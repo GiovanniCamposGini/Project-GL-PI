@@ -2,7 +2,7 @@ package com.gl.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -57,13 +57,18 @@ public class User implements Serializable, UserDetails {
 
     @CPF
     private String CPF;
+
+    @NotBlank
+    @Size(min = 3, message = "Nome não pode ter menos que 3 caracteres")
     private String name;
 
     @Email
     private String email;
     @Enumerated(EnumType.STRING)
     private UserGroups groups;
+    @NotBlank(message = "Status não pode ser nulo")
     private String statusBanco;
+    @Size(min = 6, message = "Senha tem que ter no minimo 6 digitos")
     private String password;
 
     @JsonIgnore
@@ -92,7 +97,7 @@ public class User implements Serializable, UserDetails {
         this.name = name;
         this.email = email;
         this.CPF = CPF;
-        this.statusBanco = "active";
+        this.statusBanco = "ATIVO";
         this.password = password;
         this.groups = groups;
     }
