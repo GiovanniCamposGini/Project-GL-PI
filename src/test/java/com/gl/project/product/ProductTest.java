@@ -21,7 +21,7 @@ class ProductTest {
     void deveCriarProdutoComValoresCorretos() {
         assertEquals(1L, product.getId());
         assertEquals("Notebook", product.getName());
-        assertEquals("Computador portátil", product.getDescriprion());
+        assertEquals("Computador portátil", product.getDescription());
         assertEquals(4500.0, product.getPrice());
         assertEquals("img/notebook.png", product.getImgURL());
     }
@@ -29,13 +29,13 @@ class ProductTest {
     @Test
     void devePermitirAlterarAtributosDoProduto() {
         product.setName("Smartphone");
-        product.setDescriprion("Celular Android");
+        product.setDescription("Celular Android");
         product.setPrice(2500.0);
         product.setImgURL("img/smartphone.png");
 
         assertAll(
                 () -> assertEquals("Smartphone", product.getName()),
-                () -> assertEquals("Celular Android", product.getDescriprion()),
+                () -> assertEquals("Celular Android", product.getDescription()),
                 () -> assertEquals(2500.0, product.getPrice()),
                 () -> assertEquals("img/smartphone.png", product.getImgURL())
         );

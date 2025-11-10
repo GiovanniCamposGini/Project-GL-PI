@@ -30,7 +30,7 @@ public class Product implements Serializable {
 
     @NotBlank(message = "Descrição não pode estar em branco")
     @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
-    private String descriprion;
+    private String description;
 
     @NotNull(message = "Preço não pode ser nulo")
     @Positive(message = "Preço deve ser um valor positivo")
@@ -46,19 +46,19 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String name, String descriprion, Double price, String imgURL) {
+    public Product(String name, String description, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
-        this.descriprion = descriprion;
+        this.description = description;
         this.price = price;
         this.imgURL = imgURL;
     }
-    public Product(Long id, String name, String descriprion, Double price, String imgURL) {
+    public Product(Long id, String name, String description, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
-        this.descriprion = descriprion;
+        this.description = description;
         this.price = price;
         this.imgURL = imgURL;
     }
@@ -79,12 +79,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public String getDescriprion() {
-        return descriprion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriprion(String descriprion) {
-        this.descriprion = descriprion;
+    public void setDescription(String descriprion) {
+        this.description = descriprion;
     }
 
     public String getName() {
