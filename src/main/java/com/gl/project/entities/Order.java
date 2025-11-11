@@ -1,10 +1,11 @@
 package com.gl.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_orders")
@@ -12,18 +13,15 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Status do pedido não pode ser nulo")
     private OrderStatus status;
-
-    @Positive(message = "Preço total deve ser positivo")
     private double totalPrice;
-
-    @NotNull(message = "Usuário associado ao pedido não pode ser nulo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID")
     private User user;
+
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> items = new HashSet<>();
 
 
     public Order(User userId, double totalPrice, OrderStatus status) {
@@ -31,6 +29,7 @@ public class Order {
         this.totalPrice = totalPrice;
         this.status = status;
     }
+
 
     public Order() {
     }
@@ -57,6 +56,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     @Override

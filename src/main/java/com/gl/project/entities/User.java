@@ -97,7 +97,7 @@ public class User implements Serializable, UserDetails {
         this.name = name;
         this.email = email;
         this.CPF = CPF;
-        this.statusBanco = "ATIVO";
+        this.statusBanco = "active";
         this.password = password;
         this.groups = groups;
     }

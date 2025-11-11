@@ -1,13 +1,29 @@
 package com.gl.project.entities.DTO;
 
 import com.gl.project.entities.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class UserResponseDTO {
     private Long id;
+
+    @NotBlank(message = "Nome não pode estar em branco")
+    @Size(min = 3, message = "Nome deve ter no mínimo 3 caracteres")
     private String name;
+
+    @NotBlank(message = "Email não pode estar em branco")
+    @Email(message = "Email deve ser válido")
     private String email;
+
+    @NotBlank(message = "Grupo não pode estar em branco")
     private String groups;
+
+    @NotBlank(message = "Status do banco não pode estar em branco")
     private String statusBanco;
+
+    @NotBlank(message = "CPF não pode estar em branco")
+    @Size(min = 11, max = 11, message = "CPF deve ter exatamente 11 caracteres")
     private String cpf;
 
     public UserResponseDTO(User user) {
