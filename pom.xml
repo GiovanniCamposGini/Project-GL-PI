@@ -28,10 +28,66 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+<<<<<<< HEAD
+	</properties>
+	<dependencies>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Use JUnit Platform engine instead of JUnit 4 runner -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit-platform-engine</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <version>7.14.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.14.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.14.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>1.10.0</version> <!-- Verifique se essa é a versão mais recente -->
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.14.0</version> <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+=======
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<dependencies>
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -76,6 +132,10 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+<<<<<<< HEAD
+			<version>42.7.3</version> <!-- ou a versão mais recente -->
+		</dependency>
+=======
 			<version>42.7.3</version>
 		</dependency>
 		<dependency>
@@ -92,6 +152,7 @@
 		</dependency>
 
 
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 	</dependencies>
 
 	<build>
@@ -100,6 +161,8 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+<<<<<<< HEAD
+=======
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -119,6 +182,7 @@
 					</execution>
 				</executions>
 			</plugin>
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 		</plugins>
 	</build>
 

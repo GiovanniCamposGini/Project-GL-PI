@@ -11,6 +11,10 @@ import java.util.Set;
 
 @Entity
 @Table(name= "tb_category")
+<<<<<<< HEAD
+
+=======
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
