@@ -70,7 +70,17 @@ public class User implements Serializable, UserDetails {
     private String statusBanco;
     @Size(min = 6, message = "Senha tem que ter no minimo 6 digitos")
     private String password;
+    /*
+    private String cep;
 
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> orders;

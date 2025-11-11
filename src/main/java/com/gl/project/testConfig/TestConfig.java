@@ -10,7 +10,7 @@ import org.springframework.security.core.parameters.P;
 import java.util.Arrays;
 
 @Configuration
-@Profile("dev")
+@Profile("test")
 public class TestConfig implements CommandLineRunner {
 
     private final ProductRepository productRepository;
@@ -31,7 +31,8 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = new User("lenine", "leninadadad@gmail.com","123", UserGroups.ADMIN, "48500932805");
+        User user = new User("lenine", "leninadadad@gmail.com","1234567", UserGroups.ADMIN, "48500932805");
+        /*user.setCep("04382130");*/
         userRepository.save(user);
 
         Order order = new Order(user, 100, OrderStatus.INPROGRESS);
