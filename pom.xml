@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+<<<<<<< HEAD
 	</properties>
 	<dependencies>
         <dependency>
@@ -81,6 +82,12 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+=======
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
+	</properties>
+	<dependencies>
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -125,8 +132,27 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+<<<<<<< HEAD
 			<version>42.7.3</version> <!-- ou a versão mais recente -->
 		</dependency>
+=======
+			<version>42.7.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>1.19.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>1.19.3</version>
+			<scope>test</scope>
+		</dependency>
+
+
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 	</dependencies>
 
 	<build>
@@ -135,6 +161,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+<<<<<<< HEAD
+=======
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.10</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 		</plugins>
 	</build>
 

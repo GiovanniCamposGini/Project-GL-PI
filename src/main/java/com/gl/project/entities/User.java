@@ -2,7 +2,11 @@ package com.gl.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import jakarta.validation.constraints.Email;
+=======
+import jakarta.validation.constraints.*;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,6 +20,10 @@ import java.util.List;
 @Entity
 @Table(name = "tb_users")
 public class User implements Serializable, UserDetails {
+<<<<<<< HEAD
+=======
+    @JsonIgnore
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.groups == UserGroups.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -56,15 +64,39 @@ public class User implements Serializable, UserDetails {
 
     @CPF
     private String CPF;
+<<<<<<< HEAD
+=======
+
+    @NotBlank
+    @Size(min = 3, message = "Nome não pode ter menos que 3 caracteres")
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     private String name;
 
     @Email
     private String email;
     @Enumerated(EnumType.STRING)
     private UserGroups groups;
+<<<<<<< HEAD
     private String statusBanco;
     private String password;
 
+=======
+    @NotBlank(message = "Status não pode ser nulo")
+    private String statusBanco;
+    @Size(min = 6, message = "Senha tem que ter no minimo 6 digitos")
+    private String password;
+
+    private String cep;
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> orders;

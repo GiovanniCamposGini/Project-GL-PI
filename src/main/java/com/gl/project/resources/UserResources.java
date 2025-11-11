@@ -1,6 +1,10 @@
 package com.gl.project.resources;
 
 
+<<<<<<< HEAD
+=======
+import com.gl.project.VCR.entities.ViaCEPResponse;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 import com.gl.project.entities.DTO.OrderResponseDTO;
 import com.gl.project.entities.User;
 import com.gl.project.entities.DTO.UserResponseDTO;
@@ -53,9 +57,27 @@ public class UserResources {
         User user = userService.update(id, newUser);
         return ResponseEntity.ok().body(user);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     @PutMapping(value = "/{id}/status")
     public ResponseEntity<User> updateStatus(@PathVariable Long id, @RequestBody User newUser) {
         User user = userService.updateStatus(id, newUser);
         return ResponseEntity.ok().body(user);
     }
+<<<<<<< HEAD
+=======
+
+    @GetMapping("/{id}/endereco")
+    public ResponseEntity<ViaCEPResponse> getEndereco(@PathVariable Long id, @RequestParam(name = "recordmode", defaultValue = "false") boolean recordMode) {
+        ViaCEPResponse endereco = userService.buscarEnderecoDoUser(id, recordMode);
+        if (endereco != null) {
+            return ResponseEntity.ok(endereco);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 }

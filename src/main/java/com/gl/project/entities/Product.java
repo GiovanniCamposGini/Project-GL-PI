@@ -3,6 +3,13 @@ package com.gl.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+<<<<<<< HEAD
+=======
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,9 +28,25 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+<<<<<<< HEAD
     private String name;
     private String descriprion;
     private Double price;
+=======
+    @NotBlank(message = "Nome do produto não pode estar em branco")
+    @Size(min = 3, message = "Nome do produto deve ter no mínimo 3 caracteres")
+    private String name;
+
+    @NotBlank(message = "Descrição não pode estar em branco")
+    @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
+    private String description;
+
+    @NotNull(message = "Preço não pode ser nulo")
+    @Positive(message = "Preço deve ser um valor positivo")
+    private Double price;
+
+    @NotBlank(message = "URL da imagem não pode estar em branco")
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     private String imgURL;
 
     @ManyToMany
@@ -36,11 +59,19 @@ public class Product implements Serializable {
     public Product() {
     }
 
+<<<<<<< HEAD
     public Product(String name, String descriprion, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
         this.descriprion = descriprion;
+=======
+    public Product(String name, String description, Double price, String imgURL) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.description = description;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
         this.price = price;
         this.imgURL = imgURL;
     }
@@ -61,12 +92,21 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+<<<<<<< HEAD
     public String getDescriprion() {
         return descriprion;
     }
 
     public void setDescriprion(String descriprion) {
         this.descriprion = descriprion;
+=======
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String descriprion) {
+        this.description = descriprion;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     }
 
     public String getName() {

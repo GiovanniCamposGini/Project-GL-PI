@@ -20,8 +20,13 @@ public class Order {
     @JoinColumn(name = "userID")
     private User user;
 
+<<<<<<< HEAD
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> Items = new HashSet<>();
+=======
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> items = new HashSet<>();
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
 
     public Order(User userId, double totalPrice, OrderStatus status) {
@@ -59,7 +64,15 @@ public class Order {
     }
 
     public Set<OrderItem> getItems() {
+<<<<<<< HEAD
         return Items;
+=======
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     }
 
     @Override
