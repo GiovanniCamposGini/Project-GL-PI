@@ -10,7 +10,7 @@ import org.springframework.security.core.parameters.P;
 import java.util.Arrays;
 
 @Configuration
-@Profile("test")
+@Profile("dev")
 public class TestConfig implements CommandLineRunner {
 
     private final ProductRepository productRepository;
@@ -37,16 +37,22 @@ public class TestConfig implements CommandLineRunner {
         Order order = new Order(user, 100, OrderStatus.INPROGRESS);
         orderRepository.save(order);
 
-        Product product = new Product("Tijolo", "Bloco de cerâmica usado para construção civil.",0.85,"https://example.com/images/tijolo.jpg" );
-        productRepository.save(product);
-
+        Product product3 = new Product("chinelo", "chinelada",3.85,"https://example.com/images/tijolo.jpg" );
+        Product product2 = new Product("chinelo2", "chinelada",8.33,"https://example.com/images/tijolo.jpg" );
+        Product product = new Product("chinelo3", "chinelada",2.44,"https://example.com/images/tijolo.jpg" );
         Category category = new Category(null,"Chinelo");
+        product.getCategories().add(category);
+        product2.getCategories().add(category);
+        product3.getCategories().add(category);
+
         categoryRepository.save(category);
+        productRepository.saveAll(Arrays.asList(product3, product2, product));
 
+        OrderItem od = new OrderItem(order, product, 20, product.getPrice());
+        OrderItem od2 = new OrderItem(order, product2, 20, product.getPrice());
+        OrderItem od3 = new OrderItem(order, product3, 20, product.getPrice());
 
-
-
-
+        orderItemRepository.saveAll(Arrays.asList(od,od2,od3));
 
     }
 }

@@ -22,7 +22,7 @@ public class Product implements Serializable {
     private Long id;
 
     private String name;
-    private String descriprion;
+    private String description;
     private Double price;
     private String imgURL;
 
@@ -36,11 +36,11 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String name, String descriprion, Double price, String imgURL) {
+    public Product(String name, String description, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
-        this.descriprion = descriprion;
+        this.description = description;
         this.price = price;
         this.imgURL = imgURL;
     }
@@ -61,12 +61,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public String getDescriprion() {
-        return descriprion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriprion(String descriprion) {
-        this.descriprion = descriprion;
+    public void setDescription(String descriprion) {
+        this.description = descriprion;
     }
 
     public String getName() {
