@@ -54,7 +54,7 @@ public class ProductTest {
 
     @Test
     public void testValidProduct() {
-        Product product = new Product(null, "Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
+        Product product = new Product("Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertTrue(violations.isEmpty(), "Produto válido não deve ter violações");
@@ -66,7 +66,7 @@ public class ProductTest {
 
     @Test
     public void testNameTooShort() {
-        Product product = new Product(null, "Ch", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
+        Product product = new Product("Ch", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "Nome com menos de 3 caracteres deve ter violações");
@@ -77,7 +77,7 @@ public class ProductTest {
 
     @Test
     public void testDescriptionTooShort() {
-        Product product = new Product(null, "Chinelo Conforto", "Muito bom", 39.90, "https://img.com/chinelo.jpg");
+        Product product = new Product("Chinelo Conforto", "Muito bom", 39.90, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "Descrição com menos de 10 caracteres deve ter violações");
@@ -87,7 +87,7 @@ public class ProductTest {
 
     @Test
     public void testPriceNegative() {
-        Product product = new Product(null, "Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", -10.0, "https://img.com/chinelo.jpg");
+        Product product = new Product("Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", -10.0, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "Preço negativo deve ter violações");
@@ -98,7 +98,7 @@ public class ProductTest {
 
     @Test
     public void testPriceNull() {
-        Product product = new Product(null, "Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", null, "https://img.com/chinelo.jpg");
+        Product product = new Product("Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", null, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "Preço nulo deve ter violações");
@@ -108,7 +108,7 @@ public class ProductTest {
 
     @Test
     public void testImageUrlBlank() {
-        Product product = new Product(null, "Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", 39.90, "");
+        Product product = new Product("Chinelo Conforto", "Chinelo de borracha com palmilha anatômica", 39.90, "");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "URL da imagem em branco deve ter violações");
@@ -118,7 +118,7 @@ public class ProductTest {
 
     @Test
     public void testNameBlank() {
-        Product product = new Product(null, "", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
+        Product product = new Product("", "Chinelo de borracha com palmilha anatômica", 39.90, "https://img.com/chinelo.jpg");
 
         Set<ConstraintViolation<Product>> violations = validator.validate(product);
         assertFalse(violations.isEmpty(), "Nome em branco deve ter violações");

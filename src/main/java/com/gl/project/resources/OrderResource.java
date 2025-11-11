@@ -1,13 +1,16 @@
 package com.gl.project.resources;
 
+import com.gl.project.entities.DTO.OrderRequestDTO;
 import com.gl.project.entities.DTO.OrderResponseDTO;
 import com.gl.project.entities.Order;
+import com.gl.project.entities.OrderItem;
 import com.gl.project.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -30,15 +33,15 @@ public class OrderResource {
     public ResponseEntity<List<OrderResponseDTO>> findAll() {
         List<Order> orders = orderService.findAll();
         List<OrderResponseDTO> orderResponseDTOS = orders.stream()
-                .map(OrderResponseDTO::new) // usa o construtor que recebe Order
+                .map(OrderResponseDTO::new)
                 .toList();
         return ResponseEntity.ok().body(orderResponseDTOS);
     }
 
     @PostMapping
-    public ResponseEntity<Order> save(@RequestBody Order newOrder) {
-        orderService.save(newOrder);
-        return ResponseEntity.ok(newOrder);
+    public ResponseEntity<Order> save(@RequestBody OrderRequestDTO orderRequestDTO) {
+        Order order = orderService.save(orderRequestDTO.getUserId(), orderRequestDTO.getItems());
+        return ResponseEntity.ok(order);
     }
 
     @PutMapping("{id}")
