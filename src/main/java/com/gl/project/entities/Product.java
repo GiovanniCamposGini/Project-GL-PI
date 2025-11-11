@@ -1,7 +1,12 @@
 package com.gl.project.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -20,23 +25,36 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome do produto não pode estar em branco")
+    @Size(min = 3, message = "Nome do produto deve ter no mínimo 3 caracteres")
     private String name;
-    private String descriprion;
+
+    @NotBlank(message = "Descrição não pode estar em branco")
+    @Size(min = 10, message = "Descrição deve ter no mínimo 10 caracteres")
+    private String description;
+
+    @NotNull(message = "Preço não pode ser nulo")
+    @Positive(message = "Preço deve ser um valor positivo")
     private Double price;
+
+    @NotBlank(message = "URL da imagem não pode estar em branco")
     private String imgURL;
 
     @ManyToMany
     @JoinTable(name = "tb_product_category",  joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product() {
     }
 
-    public Product(String name, String descriprion, Double price, String imgURL) {
+    public Product(String name, String description, Double price, String imgURL) {
         super();
         this.id = id;
         this.name = name;
-        this.descriprion = descriprion;
+        this.description = description;
         this.price = price;
         this.imgURL = imgURL;
     }
@@ -57,12 +75,12 @@ public class Product implements Serializable {
         this.price = price;
     }
 
-    public String getDescriprion() {
-        return descriprion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriprion(String descriprion) {
-        this.descriprion = descriprion;
+    public void setDescription(String descriprion) {
+        this.description = descriprion;
     }
 
     public String getName() {
@@ -83,6 +101,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override

@@ -1,8 +1,11 @@
 package com.gl.project.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_orders")
@@ -19,12 +22,16 @@ public class Order {
     @JoinColumn(name = "userID")
     private User user;
 
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> items = new HashSet<>();
+
 
     public Order(User userId, double totalPrice, OrderStatus status) {
         this.user = userId;
         this.totalPrice = totalPrice;
         this.status = status;
     }
+
 
     public Order() {
     }
@@ -51,6 +58,14 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
     }
 
     @Override
