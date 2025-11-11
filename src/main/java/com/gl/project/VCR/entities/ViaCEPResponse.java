@@ -1,6 +1,7 @@
 
 package com.gl.project.VCR.entities;
 
+
 public class ViaCEPResponse {
     private String cep;
     private String logradouro;

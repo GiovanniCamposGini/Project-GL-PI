@@ -2,6 +2,7 @@
 package com.gl.project.VCR;
 
 
+import com.gl.project.entities.OrderStatus;
 import com.gl.project.entities.User;
 import com.gl.project.repository.UserRepository;
 import com.gl.project.service.UserService;
@@ -23,15 +24,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class VCRViaCEPServiceTest {
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
+            .withDatabaseName("gl_project_db")
+            .withUsername("containerdocker")
+            .withPassword("sa");
 
     @DynamicPropertySource
-    static void configure(DynamicPropertyRegistry registry) {
+    static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
+        registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
+        registry.add("spring.jpa.show-sql", () -> "true");
+        registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.PostgreSQLDialect");
     }
 
     @Autowired
@@ -47,6 +52,7 @@ class VCRViaCEPServiceTest {
         user.setEmail("lenine@example.com");
         user.setPassword("123456");
         user.setCep("01001000");
+        user.setStatusBanco(OrderStatus.COMPLETED.getStatus());
         userRepository.save(user);
 
         var response = userService.buscarEnderecoDoUser(user.getId(), true);
@@ -65,6 +71,7 @@ class VCRViaCEPServiceTest {
         user.setEmail("lenine@example.com");
         user.setPassword("123456");
         user.setCep("04382130");
+        user.setStatusBanco(OrderStatus.COMPLETED.getStatus());
         userRepository.save(user);
 
 
@@ -83,6 +90,7 @@ class VCRViaCEPServiceTest {
         user.setEmail("lenine@example.com");
         user.setPassword("123456");
         user.setCep("00000000");
+        user.setStatusBanco(OrderStatus.COMPLETED.getStatus());
 
         userRepository.save(user);
 
