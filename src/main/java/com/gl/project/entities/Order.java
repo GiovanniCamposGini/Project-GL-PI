@@ -10,7 +10,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private OrderStatus status;
     private double totalPrice;
     @ManyToOne(fetch = FetchType.EAGER)

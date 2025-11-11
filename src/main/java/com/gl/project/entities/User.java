@@ -16,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_users")
 public class User implements Serializable, UserDetails {
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.groups == UserGroups.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
@@ -64,6 +65,7 @@ public class User implements Serializable, UserDetails {
     private UserGroups groups;
     private String statusBanco;
     private String password;
+    private String cep;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
@@ -83,6 +85,17 @@ public class User implements Serializable, UserDetails {
     }
 
     public User(){
+    }
+
+    public User(String CPF, String name, String email, UserGroups groups, String statusBanco, String password, String cep, List<Order> orders) {
+        this.CPF = CPF;
+        this.name = name;
+        this.email = email;
+        this.groups = groups;
+        this.statusBanco = statusBanco;
+        this.password = password;
+        this.cep = cep;
+        this.orders = orders;
     }
 
     public User(long id, String name, String email, String CPF, String password, UserGroups groups) {
@@ -148,6 +161,14 @@ public class User implements Serializable, UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
     @Override
     public int hashCode() {
