@@ -53,7 +53,7 @@ public class UserService {
         userStatus.setStatusBanco(newUser.getStatusBanco());
         return userRepository.save(userStatus);
     }
-    /*
+
     public ViaCEPResponse buscarEnderecoDoUser(Long id, boolean recordMode) throws RuntimeException {
         return userRepository.findById(id)
                 .map(user -> {
@@ -76,5 +76,5 @@ public class UserService {
                 })
                 .orElse(null);
     }
-     */
+
 }

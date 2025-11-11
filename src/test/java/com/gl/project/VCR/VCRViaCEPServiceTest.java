@@ -1,4 +1,3 @@
-/*
 package com.gl.project.VCR;
 
 
@@ -101,5 +100,3 @@ class VCRViaCEPServiceTest {
         assertTrue(ex.getMessage().contains("Erro ao buscar endereço"));
     }
 }
-
-*/

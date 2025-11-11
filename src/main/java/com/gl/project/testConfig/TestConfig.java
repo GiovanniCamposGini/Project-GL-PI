@@ -32,7 +32,7 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         User user = new User("lenine", "leninadadad@gmail.com","1234567", UserGroups.ADMIN, "48500932805");
-        /*user.setCep("04382130");*/
+        user.setCep("04382130");
         userRepository.save(user);
 
         Order order = new Order(user, 100, OrderStatus.INPROGRESS);

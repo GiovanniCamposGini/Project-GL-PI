@@ -60,7 +60,7 @@ public class UserResources {
         User user = userService.updateStatus(id, newUser);
         return ResponseEntity.ok().body(user);
     }
-    /*
+
     @GetMapping("/{id}/endereco")
     public ResponseEntity<ViaCEPResponse> getEndereco(@PathVariable Long id, @RequestParam(name = "recordmode", defaultValue = "false") boolean recordMode) {
         ViaCEPResponse endereco = userService.buscarEnderecoDoUser(id, recordMode);
@@ -70,5 +70,5 @@ public class UserResources {
             return ResponseEntity.notFound().build();
         }
     }
-    */
+
 }
