@@ -31,13 +31,29 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+<<<<<<< HEAD
+        User user = new User("lenine", "leninadadad@gmail.com","123", UserGroups.ADMIN, "48500932805");
+=======
         User user = new User("lenine", "leninadadad@gmail.com","1234567", UserGroups.ADMIN, "48500932805");
         user.setCep("04382130");
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
         userRepository.save(user);
 
         Order order = new Order(user, 100, OrderStatus.INPROGRESS);
         orderRepository.save(order);
 
+<<<<<<< HEAD
+        Product product = new Product("Tijolo", "Bloco de cerâmica usado para construção civil.",0.85,"https://example.com/images/tijolo.jpg" );
+        productRepository.save(product);
+
+        Category category = new Category(null,"Chinelo");
+        categoryRepository.save(category);
+
+
+
+
+
+=======
         Product product3 = new Product("chinelo", "chineladaaaaaaaaaaaaaaaa",3.85,"https://example.com/images/tijolo.jpg" );
         Product product2 = new Product("chinelo2", "chineladaaaaaaaaaaaaaaaa",8.33,"https://example.com/images/tijolo.jpg" );
         Product product = new Product("chinelo3", "chineladaaaaaaaaaaaaaaaaa",2.44,"https://example.com/images/tijolo.jpg" );
@@ -54,6 +70,7 @@ public class TestConfig implements CommandLineRunner {
         OrderItem od3 = new OrderItem(order, product3, 20, product.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(od,od2,od3));
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
     }
 }
