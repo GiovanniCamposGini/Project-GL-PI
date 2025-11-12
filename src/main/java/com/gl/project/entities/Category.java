@@ -2,6 +2,8 @@ package com.gl.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,10 +16,13 @@ import java.util.Set;
 public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Nome da categoria não pode estar em branco")
+    @Size(min = 3, message = "Nome da categoria deve ter no mínimo 3 caracteres")
     private String name;
 
     @JsonIgnore
@@ -29,8 +34,8 @@ public class Category implements Serializable {
     }
 
     public Category(){
-
     }
+
     public Category(Long id, String name) {
         super();
         this.id = id;
