@@ -13,30 +13,30 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
     private double totalPrice;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userID")
     private User user;
 
-<<<<<<< HEAD
-    @OneToMany(mappedBy = "id.order")
-    private Set<OrderItem> Items = new HashSet<>();
-=======
     @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> items = new HashSet<>();
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
+    public Order() {
+    }
 
-    public Order(User userId, double totalPrice, OrderStatus status) {
-        this.user = userId;
+    public Order(User user, double totalPrice, OrderStatus status) {
+        this.user = user;
         this.totalPrice = totalPrice;
         this.status = status;
     }
 
-
-    public Order() {
+    public Long getId() {
+        return id;
     }
 
     public OrderStatus getStatus() {
@@ -64,15 +64,11 @@ public class Order {
     }
 
     public Set<OrderItem> getItems() {
-<<<<<<< HEAD
-        return Items;
-=======
         return items;
     }
 
     public void setItems(Set<OrderItem> items) {
         this.items = items;
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     }
 
     @Override
@@ -85,9 +81,5 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
-    }
-
-    public Long getId() {
-        return id;
     }
 }

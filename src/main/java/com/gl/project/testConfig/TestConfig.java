@@ -5,7 +5,6 @@ import com.gl.project.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.core.parameters.P;
 
 import java.util.Arrays;
 
@@ -17,9 +16,13 @@ public class TestConfig implements CommandLineRunner {
     private final CategoryRepository categoryRepository;
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
-    private OrderItemRepository orderItemRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public TestConfig(ProductRepository productRepository, CategoryRepository categoryRepository, OrderRepository orderRepository, UserRepository userRepository,  OrderItemRepository orderItemRepository) {
+    public TestConfig(ProductRepository productRepository,
+                      CategoryRepository categoryRepository,
+                      OrderRepository orderRepository,
+                      UserRepository userRepository,
+                      OrderItemRepository orderItemRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.orderRepository = orderRepository;
@@ -27,50 +30,35 @@ public class TestConfig implements CommandLineRunner {
         this.orderItemRepository = orderItemRepository;
     }
 
-
-
     @Override
     public void run(String... args) throws Exception {
-<<<<<<< HEAD
-        User user = new User("lenine", "leninadadad@gmail.com","123", UserGroups.ADMIN, "48500932805");
-=======
-        User user = new User("lenine", "leninadadad@gmail.com","1234567", UserGroups.ADMIN, "48500932805");
+        // Usuário de teste
+        User user = new User("lenine", "leninadadad@gmail.com", "1234567", UserGroups.ADMIN, "48500932805");
         user.setCep("04382130");
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
         userRepository.save(user);
 
+        // Pedido de teste
         Order order = new Order(user, 100, OrderStatus.INPROGRESS);
         orderRepository.save(order);
 
-<<<<<<< HEAD
-        Product product = new Product("Tijolo", "Bloco de cerâmica usado para construção civil.",0.85,"https://example.com/images/tijolo.jpg" );
-        productRepository.save(product);
+        // Produtos e categoria de teste
+        Product product1 = new Product("Chinelo 1", "Chinelo confortável para uso diário", 3.85, "https://example.com/images/chinelo1.jpg");
+        Product product2 = new Product("Chinelo 2", "Chinelo leve e resistente", 8.33, "https://example.com/images/chinelo2.jpg");
+        Product product3 = new Product("Chinelo 3", "Chinelo estiloso e moderno", 2.44, "https://example.com/images/chinelo3.jpg");
 
-        Category category = new Category(null,"Chinelo");
-        categoryRepository.save(category);
-
-
-
-
-
-=======
-        Product product3 = new Product("chinelo", "chineladaaaaaaaaaaaaaaaa",3.85,"https://example.com/images/tijolo.jpg" );
-        Product product2 = new Product("chinelo2", "chineladaaaaaaaaaaaaaaaa",8.33,"https://example.com/images/tijolo.jpg" );
-        Product product = new Product("chinelo3", "chineladaaaaaaaaaaaaaaaaa",2.44,"https://example.com/images/tijolo.jpg" );
-        Category category = new Category(null,"Chinelo");
-        product.getCategories().add(category);
+        Category category = new Category(null, "Chinelo");
+        product1.getCategories().add(category);
         product2.getCategories().add(category);
         product3.getCategories().add(category);
 
         categoryRepository.save(category);
-        productRepository.saveAll(Arrays.asList(product3, product2, product));
+        productRepository.saveAll(Arrays.asList(product1, product2, product3));
 
-        OrderItem od = new OrderItem(order, product, 20, product.getPrice());
-        OrderItem od2 = new OrderItem(order, product2, 20, product.getPrice());
-        OrderItem od3 = new OrderItem(order, product3, 20, product.getPrice());
+        // Itens do pedido
+        OrderItem od1 = new OrderItem(order, product1, 20, product1.getPrice());
+        OrderItem od2 = new OrderItem(order, product2, 20, product2.getPrice());
+        OrderItem od3 = new OrderItem(order, product3, 20, product3.getPrice());
 
-        orderItemRepository.saveAll(Arrays.asList(od,od2,od3));
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
-
+        orderItemRepository.saveAll(Arrays.asList(od1, od2, od3));
     }
 }

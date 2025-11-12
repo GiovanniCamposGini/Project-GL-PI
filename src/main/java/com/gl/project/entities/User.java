@@ -2,11 +2,9 @@ package com.gl.project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-<<<<<<< HEAD
 import jakarta.validation.constraints.Email;
-=======
-import jakarta.validation.constraints.*;
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,45 +14,11 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_users")
 public class User implements Serializable, UserDetails {
-<<<<<<< HEAD
-=======
-    @JsonIgnore
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.groups == UserGroups.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -64,45 +28,30 @@ public class User implements Serializable, UserDetails {
 
     @CPF
     private String CPF;
-<<<<<<< HEAD
-=======
 
     @NotBlank
     @Size(min = 3, message = "Nome não pode ter menos que 3 caracteres")
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     private String name;
 
     @Email
     private String email;
+
     @Enumerated(EnumType.STRING)
     private UserGroups groups;
-<<<<<<< HEAD
-    private String statusBanco;
-    private String password;
 
-=======
     @NotBlank(message = "Status não pode ser nulo")
     private String statusBanco;
-    @Size(min = 6, message = "Senha tem que ter no minimo 6 digitos")
+
+    @Size(min = 6, message = "Senha tem que ter no mínimo 6 dígitos")
     private String password;
 
     private String cep;
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
 
-    public List<Order> getOrders() {
-        return orders;
+    public User() {
     }
 
     public User(String name, String email, String password, UserGroups groups, String cpf) {
@@ -114,11 +63,7 @@ public class User implements Serializable, UserDetails {
         this.statusBanco = "ATIVO";
     }
 
-    public User(){
-    }
-
     public User(long id, String name, String email, String CPF, String password, UserGroups groups) {
-        super();
         this.id = id;
         this.name = name;
         this.email = email;
@@ -128,7 +73,8 @@ public class User implements Serializable, UserDetails {
         this.groups = groups;
     }
 
-    public long getId() {
+    // Getters e Setters
+    public Long getId() {
         return id;
     }
 
@@ -156,10 +102,16 @@ public class User implements Serializable, UserDetails {
         return CPF;
     }
 
-    public void setCPF(String CPF) {this.CPF = CPF; }
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public UserGroups getGroups() {
@@ -178,31 +130,67 @@ public class User implements Serializable, UserDetails {
         this.statusBanco = statusBanco;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getCep() {
+        return cep;
     }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.groups == UserGroups.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")
+            );
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    // equals e hashCode
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        return (id == null) ? 0 : id.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+        return Objects.equals(id, other.id);
     }
 }

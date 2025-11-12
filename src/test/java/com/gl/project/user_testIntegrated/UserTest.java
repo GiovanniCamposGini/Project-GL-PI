@@ -67,11 +67,11 @@ public class UserTest {
 
     @Test
     public void testPasswordTooShort() {
-        User user = new User("João Silva", "joao@example.com", "12345", UserGroups.USER, "39053344705");
+        User user = new User("João Silva", "joao@example.com", "123", UserGroups.USER, "39053344705");
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty(), "Senha com menos de 6 dígitos deve ter violações");
-        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Senha tem que ter no minimo 6 digitos")));
+        assertTrue(violations.stream().anyMatch(v -> v.getMessage().contains("Senha tem que ter no mínimo 6 dígitos")));
 
         assertThrows(Exception.class, () -> userService.create(user));
     }

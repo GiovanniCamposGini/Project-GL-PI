@@ -1,18 +1,15 @@
 package com.gl.project.service;
 
-<<<<<<< HEAD
-=======
 import com.gl.project.VCR.entities.ViaCEPResponse;
 import com.gl.project.VCR.service.VCRService;
 import com.gl.project.VCR.service.ViaCepService;
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 import com.gl.project.entities.User;
 import com.gl.project.repository.UserRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import jakarta.validation.Validator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,13 +18,15 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-<<<<<<< HEAD
-=======
+
     @Autowired
     private ViaCepService viaCepService;
+
     @Autowired
     private VCRService vcrService;
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
+
+    @Autowired
+    private Validator validator;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -35,15 +34,20 @@ public class UserService {
 
     public User findByID(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.get();
+        return user.orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + id));
     }
 
     public User create(User user) {
+        var violations = validator.validate(user);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         return userRepository.save(user);
     }
 
     public User update(Long id, User newUser) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + id));
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(newUser.getPassword());
         user.setPassword(encryptedPassword);
@@ -51,18 +55,18 @@ public class UserService {
         user.setName(newUser.getName());
         user.setEmail(newUser.getEmail());
         user.setGroups(newUser.getGroups());
+
         return userRepository.save(user);
     }
 
     public User updateStatus(Long id, User newUser) {
-        User userStatus = userRepository.findById(id).get();
+        User userStatus = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + id));
         userStatus.setStatusBanco(newUser.getStatusBanco());
         return userRepository.save(userStatus);
     }
-<<<<<<< HEAD
-=======
 
-    public ViaCEPResponse buscarEnderecoDoUser(Long id, boolean recordMode) throws RuntimeException {
+    public ViaCEPResponse buscarEnderecoDoUser(Long id, boolean recordMode) {
         return userRepository.findById(id)
                 .map(user -> {
                     String cassetteName = "cep_" + user.getCep();
@@ -73,10 +77,7 @@ public class UserService {
                             return response;
                         } else {
                             ViaCEPResponse response = vcrService.load(cassetteName, ViaCEPResponse.class);
-                            if (response != null) {
-                                return response;
-                            }
-                            return null;
+                            return response;
                         }
                     } catch (Exception e) {
                         throw new RuntimeException("Erro ao buscar endereço", e);
@@ -84,6 +85,4 @@ public class UserService {
                 })
                 .orElse(null);
     }
-
->>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 }
