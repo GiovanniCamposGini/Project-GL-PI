@@ -4,12 +4,14 @@ import com.gl.project.entities.User;
 import com.gl.project.entities.UserGroups;
 import com.gl.project.repository.UserRepository;
 import com.gl.project.service.UserService;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +26,9 @@ class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
+
+    @Mock
+    private Validator validator;
 
     @Test
     void deveRetornarListaDeUsuarios() {
@@ -59,13 +64,12 @@ class UserServiceTest {
 
     @Test
     void deveCriarUsuario() {
-
         User user = new User("João", "joao@email.com", "senha", UserGroups.USER, "11122233344");
+
+        when(validator.validate(any(User.class))).thenReturn(Collections.emptySet());
         when(userRepository.save(user)).thenReturn(user);
 
-
         User created = userService.create(user);
-
 
         assertEquals("João", created.getName());
         verify(userRepository, times(1)).save(user);
