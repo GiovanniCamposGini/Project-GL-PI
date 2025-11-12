@@ -16,13 +16,18 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserStepDefinition {
-    @Autowired
+
     private TestRestTemplate restTemplate;
 
     @LocalServerPort
     private int port;
-    @Autowired
+
     private UserRepository userRepository;
+
+    public UserStepDefinition(TestRestTemplate restTemplate, UserRepository userRepository) {
+        this.restTemplate = restTemplate;
+        this.userRepository = userRepository;
+    }
 
     private ResponseEntity<?> response;
 
