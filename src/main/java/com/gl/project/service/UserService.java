@@ -1,8 +1,11 @@
 package com.gl.project.service;
 
+<<<<<<< HEAD
+=======
 import com.gl.project.VCR.entities.ViaCEPResponse;
 import com.gl.project.VCR.service.VCRService;
 import com.gl.project.VCR.service.ViaCepService;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 import com.gl.project.entities.User;
 import com.gl.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,13 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+<<<<<<< HEAD
+=======
     @Autowired
     private ViaCepService viaCepService;
     @Autowired
     private VCRService vcrService;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -53,6 +59,8 @@ public class UserService {
         userStatus.setStatusBanco(newUser.getStatusBanco());
         return userRepository.save(userStatus);
     }
+<<<<<<< HEAD
+=======
 
     public ViaCEPResponse buscarEnderecoDoUser(Long id, boolean recordMode) throws RuntimeException {
         return userRepository.findById(id)
@@ -77,4 +85,5 @@ public class UserService {
                 .orElse(null);
     }
 
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 }

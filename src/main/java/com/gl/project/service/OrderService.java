@@ -1,5 +1,12 @@
 package com.gl.project.service;
 
+<<<<<<< HEAD
+import com.gl.project.entities.Order;
+import com.gl.project.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+=======
 import com.gl.project.entities.*;
 import com.gl.project.entities.DTO.OrderItemDTO;
 import com.gl.project.repository.OrderItemRepository;
@@ -11,11 +18,17 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
 
 @Service
 public class OrderService {
 
     private OrderRepository orderRepository;
+<<<<<<< HEAD
+
+    public OrderService(OrderRepository repository) {
+        this.orderRepository = repository;
+=======
     private UserRepository userRepository;
     private ProductRepository productRepository;
     private OrderItemRepository orderItemRepository;
@@ -25,6 +38,7 @@ public class OrderService {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.orderItemRepository = orderItemRepository;
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     }
 
     public List<Order> findAll() {
@@ -35,6 +49,10 @@ public class OrderService {
         return orderRepository.findById(id).get();
     }
 
+<<<<<<< HEAD
+    public Order save(Order order) {
+        return orderRepository.save(order);
+=======
     public Order save(Long userID, Set<OrderItemDTO> items) {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + userID));
@@ -58,6 +76,7 @@ public class OrderService {
         orderItemRepository.saveAll(orderItems);
         return order;
 
+>>>>>>> 264a16fbf826ee630aa2bbc602e7497b44616f1d
     }
     public Order updateStatus(Long id, Order order) {
         Order oldOrder = orderRepository.findById(id).get();
