@@ -24,7 +24,7 @@ async function carregarCarrinho() {
         }
 
         carrinho.items.forEach(item => {
-            const produto = item.product; // depende do seu DTO de resposta
+            const produto = item.product // depende do seu DTO de resposta
             const card = document.createElement("div");
             card.className = "cart-item";
             card.innerHTML = `
