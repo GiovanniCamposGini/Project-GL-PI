@@ -26,7 +26,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         .then(result => {
             localStorage.setItem('token', result.token);
             alert('Login realizado com sucesso!');
-            window.location.href = 'dashboard.html';
+            window.location.href = 'index.html';
         })
         .catch(error => {
             console.error('Erro no login:', error);
