@@ -5,6 +5,7 @@ import com.gl.project.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Arrays;
 
@@ -33,7 +34,8 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Usuário de teste
-        User user = new User("lenine", "leninadadad@gmail.com", "1234567", UserGroups.ADMIN, "48500932805");
+        String encryptedPassword = new BCryptPasswordEncoder().encode("1234567");
+        User user = new User("lenine", "leninadadad@gmail.com", encryptedPassword, UserGroups.ADMIN, "48500932805");
         user.setCep("04382130");
         userRepository.save(user);
 
@@ -42,9 +44,9 @@ public class TestConfig implements CommandLineRunner {
         orderRepository.save(order);
 
         // Produtos e categoria de teste
-        Product product1 = new Product("Chinelo 1", "Chinelo confortável para uso diário", 3.85, "https://example.com/images/chinelo1.jpg");
-        Product product2 = new Product("Chinelo 2", "Chinelo leve e resistente", 8.33, "https://example.com/images/chinelo2.jpg");
-        Product product3 = new Product("Chinelo 3", "Chinelo estiloso e moderno", 2.44, "https://example.com/images/chinelo3.jpg");
+        Product product1 = new Product("Chinelo 1", "Chinelo confortável para uso diário", 3.85, "https://encurtador.com.br/qyOI");
+        Product product2 = new Product("Chinelo 2", "Chinelo leve e resistente", 8.33, "https://encurtador.com.br/qyOI");
+        Product product3 = new Product("Chinelo 3", "Chinelo estiloso e moderno", 2.44, "https://encurtador.com.br/qyOI");
 
         Category category = new Category(null, "Chinelo");
         product1.getCategories().add(category);
@@ -60,5 +62,6 @@ public class TestConfig implements CommandLineRunner {
         OrderItem od3 = new OrderItem(order, product3, 20, product3.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(od1, od2, od3));
+
     }
 }
