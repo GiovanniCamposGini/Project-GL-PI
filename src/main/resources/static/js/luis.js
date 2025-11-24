@@ -161,14 +161,16 @@ function escapeHtml(text) {
 }
 
 function userVerification() {
-    const usuario = JSON.parse(localStorage.getItem("logado"));
+    const token = localStorage.getItem("token");
     const adminLink = document.getElementById("adminLink");
 
-    if (!usuario && adminLink) {
-        adminLink.addEventListener("click", (e) => {
-            e.preventDefault();
-            alert("Você precisa estar logado para acessar essa área.");
-        });
+    if (adminLink) {
+        if (!token || token === "null" || token.trim() === "") {
+            adminLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                alert("Você precisa estar logado para acessar essa área.");
+            });
+        }
     }
 }
 
