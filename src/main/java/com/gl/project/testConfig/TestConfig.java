@@ -44,9 +44,9 @@ public class TestConfig implements CommandLineRunner {
         orderRepository.save(order);
 
         // Produtos e categoria de teste
-        Product product1 = new Product("Chinelo 1", "Chinelo confortável para uso diário", 3.85, "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/2023_Japonki_Havaianas_%281%29.jpg/1200px-2023_Japonki_Havaianas_%281%29.jpg");
-        Product product2 = new Product("Chinelo 2", "Chinelo leve e resistente", 8.33, "https://havaianas.com.br/cdn/shop/files/chinelo-havaianas-brasil.jpg");
-        Product product3 = new Product("Chinelo 3", "Chinelo estiloso e moderno", 2.44, "https://havaianas.com.br/cdn/shop/files/chinelo-havaianas-brasil.jpg");
+        Product product1 = new Product("Chinelo 1", "Chinelo confortável para uso diário", 3.85, "https://encurtador.com.br/qyOI");
+        Product product2 = new Product("Chinelo 2", "Chinelo leve e resistente", 8.33, "https://encurtador.com.br/qyOI");
+        Product product3 = new Product("Chinelo 3", "Chinelo estiloso e moderno", 2.44, "https://encurtador.com.br/qyOI");
 
         Category category = new Category(null, "Chinelo");
         product1.getCategories().add(category);
@@ -62,5 +62,6 @@ public class TestConfig implements CommandLineRunner {
         OrderItem od3 = new OrderItem(order, product3, 20, product3.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(od1, od2, od3));
+
     }
 }

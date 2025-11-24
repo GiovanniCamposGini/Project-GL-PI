@@ -1,138 +1,12 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     initSampleLoja();
-    setupAuthForms();
-    setupEstoquePage();
     setupLojaPages();
-    setupHistoriaPage();
     updateUserUI();
     updateCartCountUI();
+    userVerification();
 });
 
-/* ---------------------------
-   Autenticação: cadastro / login
-   --------------------------- */
-function setupAuthForms() {
-    // CADASTRO
-    const cadastroForm = document.getElementById("cadastroForm");
-    if (cadastroForm) {
-        cadastroForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const cpf = document.getElementById("cpf").value.trim();
-            const nome = document.getElementById("nome").value.trim();
-            const nascimento = document.getElementById("nascimento").value;
-            const senha = document.getElementById("senha").value;
-            const confirma = document.getElementById("confirma").value;
-            const cargo = document.getElementById("cargo").value;
-
-            if (senha !== confirma) {
-                alert("As senhas não coincidem!");
-                return;
-            }
-
-            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-            if (usuarios.some(u => u.cpf === cpf)) {
-                alert("CPF já cadastrado!");
-                return;
-            }
-
-            usuarios.push({ cpf, nome, nascimento, senha, cargo });
-            localStorage.setItem("usuarios", JSON.stringify(usuarios));
-            alert("Cadastro realizado com sucesso!");
-            window.location.href = "login.html";
-        });
-    }
-
-    // LOGIN
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const cpf = document.getElementById("loginCpf").value.trim();
-            const senha = document.getElementById("loginSenha").value;
-
-            let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-            let usuario = usuarios.find(u => u.cpf === cpf && u.senha === senha);
-
-            if (!usuario) {
-                alert("CPF ou senha incorretos!");
-                return;
-            }
-
-            localStorage.setItem("logado", JSON.stringify(usuario));
-            updateUserUI();
-            window.location.href = "estoque.html";
-        });
-    }
-}
-
-/* ---------------------------
-   Estoque
-   --------------------------- */
-function setupEstoquePage() {
-    if (window.location.pathname.includes("estoque.html")) {
-        let usuario = JSON.parse(localStorage.getItem("logado"));
-        if (!usuario) {
-            window.location.href = "login.html";
-            return;
-        }
-
-        const title = document.querySelector("h2");
-        if (title) title.innerText += " - " + usuario.nome;
-
-        // renderizar produtos do estoque (usado para admin)
-        let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-        renderEstoque(produtos, usuario);
-
-        if (usuario.cargo === "adm") {
-            const admArea = document.getElementById("admArea");
-            if (admArea) admArea.style.display = "block";
-        }
-    }
-}
-
-function renderEstoque(produtos, usuario) {
-    const area = document.getElementById("estoqueArea");
-    if (!area) return;
-
-    let html = "<ul>";
-    produtos.forEach((p, i) => {
-        html += `<li>${p.nome} - ${p.qtd}`;
-        if (usuario && usuario.cargo === "adm") {
-            html += ` 
-        <button onclick="editarProduto(${i})" style="margin-left:5px; background:#f39c12;">Editar</button>
-        <button onclick="excluirProduto(${i})" style="margin-left:5px; background:#e74c3c;">Excluir</button>`;
-        }
-        html += "</li>";
-    });
-    html += "</ul>";
-    area.innerHTML = html;
-}
-
-window.editarProduto = function(index) {
-    let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-    let produto = produtos[index];
-
-    let novoNome = prompt("Novo nome do produto:", produto.nome);
-    let novaQtd = prompt("Nova quantidade:", produto.qtd);
-
-    if (novoNome && novaQtd) {
-        produtos[index] = { nome: novoNome, qtd: novaQtd };
-        localStorage.setItem("produtos", JSON.stringify(produtos));
-        let usuario = JSON.parse(localStorage.getItem("logado"));
-        renderEstoque(produtos, usuario);
-    }
-};
-
-window.excluirProduto = function(index) {
-    let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-    if (confirm("Tem certeza que deseja excluir este produto?")) {
-        produtos.splice(index, 1);
-        localStorage.setItem("produtos", JSON.stringify(produtos));
-        let usuario = JSON.parse(localStorage.getItem("logado"));
-        renderEstoque(produtos, usuario);
-    }
-};
 
 window.logout = function() {
     localStorage.removeItem("logado");
@@ -252,154 +126,7 @@ function renderCarrinho() {
         return;
     }
 
-    let html = "";
-    cart.forEach((item, idx) => {
-        html += `
-      <div class="cart-item">
-        <img src="${item.imagem}" alt="${escapeHtml(item.nome)}" />
-        <div class="meta">
-          <strong>${escapeHtml(item.nome)}</strong>
-          <p>R$ ${formatPrice(item.preco)} cada</p>
-        </div>
-        <div class="qty-controls">
-          <label>Qtd</label><br/>
-          <input type="number" min="1" value="${item.qtd}" onchange="changeQty(${idx}, this.value)" />
-        </div>
-        <div>
-          <p><strong>R$ ${formatPrice(item.preco * item.qtd)}</strong></p>
-          <button onclick="removeFromCart(${idx})" class="ghost">Remover</button>
-        </div>
-      </div>
-    `;
-    });
-
-    // resumo
-    const total = cart.reduce((s,i) => s + i.preco * i.qtd, 0);
-    html += `<div style="margin-top:12px;"><strong>Total: R$ ${formatPrice(total)}</strong></div>`;
-
-    area.innerHTML = html;
-
-    actions.innerHTML = `
-    <button class="primary" onclick="checkout()">Finalizar Compra</button>
-    <button class="ghost" onclick="clearCart()">Limpar carrinho</button>
-  `;
-
     updateCartCountUI();
-}
-
-window.changeQty = function(index, novo) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    novo = parseInt(novo);
-    if (!novo || novo < 1) novo = 1;
-
-    // verifica estoque disponível
-    const produtos = JSON.parse(localStorage.getItem("produtosLoja")) || [];
-    const produto = produtos.find(p => p.id === cart[index].id);
-    if (produto && novo > produto.estoque) {
-        alert("Quantidade maior que o estoque disponível.");
-        renderCarrinho();
-        return;
-    }
-
-    cart[index].qtd = novo;
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCarrinho();
-};
-
-window.removeFromCart = function(index) {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCarrinho();
-};
-
-window.clearCart = function() {
-    if (confirm("Deseja limpar o carrinho?")) {
-        localStorage.removeItem("cart");
-        renderCarrinho();
-    }
-};
-
-window.checkout = function() {
-    const usuario = JSON.parse(localStorage.getItem("logado"));
-    if (!usuario) {
-        alert("Você precisa estar logado para finalizar a compra.");
-        window.location.href = "login.html";
-        return;
-    }
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    if (cart.length === 0) {
-        alert("Carrinho vazio.");
-        return;
-    }
-
-    // Simula redução de estoque
-    let produtos = JSON.parse(localStorage.getItem("produtosLoja")) || [];
-    for (let item of cart) {
-        const prod = produtos.find(p => p.id === item.id);
-        if (prod) {
-            if (item.qtd > prod.estoque) {
-                alert(`Produto ${prod.nome} não tem estoque suficiente.`);
-                return;
-            }
-            prod.estoque -= item.qtd;
-        }
-    }
-    localStorage.setItem("produtosLoja", JSON.stringify(produtos));
-    // opcional: adicionar à tabela de vendas (não exigido)
-    localStorage.removeItem("cart");
-    alert("Compra finalizada com sucesso! Obrigado pela sua compra.");
-    updateCartCountUI();
-    // redireciona para página de produtos
-    window.location.href = "index.html";
-};
-
-/* ---------------------------
-   História: upload e apresentação de fotos
-   --------------------------- */
-function setupHistoriaPage() {
-    if (!window.location.pathname.includes("historia.html")) return;
-
-    const input = document.getElementById("photoInput");
-    const saveBtn = document.getElementById("savePhotosBtn");
-    const grid = document.getElementById("photosGrid");
-
-    function renderPhotos() {
-        const fotos = JSON.parse(localStorage.getItem("historiaFotos")) || [];
-        grid.innerHTML = fotos.map((f, i) => `<img src="${f}" alt="Equipe ${i+1}">`).join("");
-    }
-
-    renderPhotos();
-
-    if (input && saveBtn) {
-        saveBtn.addEventListener("click", () => {
-            const files = input.files;
-            if (!files || files.length === 0) {
-                alert("Escolha ao menos uma imagem.");
-                return;
-            }
-            const promises = [];
-            for (let f of files) {
-                promises.push(fileToDataURL(f));
-            }
-            Promise.all(promises).then(dataUrls => {
-                // salva no localStorage
-                localStorage.setItem("historiaFotos", JSON.stringify(dataUrls));
-                renderPhotos();
-                alert("Fotos salvas localmente e exibidas na história.");
-            });
-        });
-    }
-}
-
-function fileToDataURL(file) {
-    return new Promise((resolve, reject) => {
-        const fr = new FileReader();
-        fr.onload = () => resolve(fr.result);
-        fr.onerror = reject;
-        fr.readAsDataURL(file);
-    });
 }
 
 /* ---------------------------
@@ -433,31 +160,15 @@ function escapeHtml(text) {
         .replace(/>/g, "&gt;");
 }
 
-/* ---------------------------
-   Mantém compatibilidade com suas funções originais (se for usado em outros arquivos)
-   --------------------------- */
-function adicionarProduto() {
-    const nome = document.getElementById("produtoNome").value;
-    const qtd = document.getElementById("produtoQtd").value;
+function userVerification() {
+    const usuario = JSON.parse(localStorage.getItem("logado"));
+    const adminLink = document.getElementById("adminLink");
 
-    if (!nome || !qtd) {
-        alert("Preencha todos os campos!");
-        return;
+    if (!usuario && adminLink) {
+        adminLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            alert("Você precisa estar logado para acessar essa área.");
+        });
     }
-
-    let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
-    produtos.push({ nome, qtd });
-    localStorage.setItem("produtos", JSON.stringify(produtos));
-
-    let usuario = JSON.parse(localStorage.getItem("logado"));
-    renderEstoque(produtos, usuario);
-
-    document.getElementById("produtoNome").value = "";
-    document.getElementById("produtoQtd").value = "";
 }
 
-/* Quando o usuário carregar páginas sem extensão (ex: /) redirecionamos para index.html */
-if (window.location.pathname === "/" || window.location.pathname === "") {
-    // se for app em root, redireciona para index.html
-    // não forçamos se estiver hospedando em localhost com arquivo aberto diretamente.
-}

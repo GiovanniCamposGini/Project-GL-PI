@@ -18,9 +18,17 @@ async function carregarCarrinho() {
         const cartArea = document.getElementById("cartArea");
         cartArea.innerHTML = "";
 
-        if (!carrinho.items || carrinho.items.length === 0) {
-            cartArea.innerHTML = "<p>Seu carrinho está vazio.</p>";
-            return;
+        if (carrinho.items.length === 0) {
+            cartArea.classList.add("vazio"); // aplica o estilo especial
+            cartArea.innerHTML = `
+        <div class="cart-empty">
+        <p>Seu carrinho está vazio.</p>
+        <button onclick="window.location.href='index.html'">Continuar comprando</button>
+        </div>
+  `;
+            document.getElementById("cartActions").style.display = "none";
+        } else {
+            cartArea.classList.remove("vazio"); // remove se tiver itens
         }
 
         carrinho.items.forEach(item => {
@@ -71,6 +79,5 @@ async function finalizarCarrinho() {
         alert("Não foi possível finalizar a compra.");
     }
 }
-
 // Carregar carrinho quando a página abrir
 window.addEventListener("DOMContentLoaded", carregarCarrinho);
